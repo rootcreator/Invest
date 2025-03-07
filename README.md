@@ -1,0 +1,2 @@
+# Invest
+ Django Investment App
