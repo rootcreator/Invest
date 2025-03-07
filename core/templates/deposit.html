@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .copy-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: blue;
+            text-decoration: underline;
+        }
+        .copy-btn:hover {
+            color: darkblue;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">MyInvestmentApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Deposit Form -->
+<div class="container mt-4">
+    <h2 class="text-center">Deposit Funds</h2>
+
+    <p class="text-muted text-center">
+        Follow these steps to make a deposit.
+    </p>
+
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Step 1: Select Deposit Amount -->
+        <div class="mb-3">
+            <label for="amount" class="form-label">Step 1: Enter Deposit Amount ($)</label>
+            <input type="number" name="amount" class="form-control" step="0.01" required placeholder="Enter amount">
+            <small class="text-muted">Enter the exact amount you plan to deposit.</small>
+        </div>
+
+        <!-- Step 2: Choose Crypto Wallet -->
+        <div class="mb-3">
+            <label for="crypto_wallet" class="form-label">Step 2: Select Crypto Wallet</label>
+            <select name="crypto_wallet" id="wallet-select" class="form-select" required>
+                <option value="" disabled selected>Choose a wallet</option>
+                {% for wallet in wallets %}
+                    <option value="{{ wallet.id }}" data-address="{{ wallet.address }}">
+                        {{ wallet.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <small class="text-muted">Select the wallet address to which you will send funds.</small>
+        </div>
+
+        <!-- Step 3: Copy Wallet Address -->
+        <div class="mb-3">
+            <label for="wallet_address" class="form-label">Step 3: Copy Wallet Address</label>
+            <div class="input-group">
+                <input type="text" id="wallet-address" class="form-control" readonly>
+                <button type="button" class="copy-btn" onclick="copyAddress()">Copy</button>
+            </div>
+            <small class="text-muted">Paste this wallet address into your crypto wallet to send funds.</small>
+        </div>
+
+        <!-- Step 4: Enter Transaction ID -->
+        <div class="mb-3">
+            <label for="transaction_id" class="form-label">Step 4: Paste Transaction ID / Hash</label>
+            <input type="text" name="transaction_id" class="form-control" required placeholder="Paste transaction hash">
+            <small class="text-muted">After making the deposit, copy the transaction hash from your wallet and paste it here.</small>
+        </div>
+
+        <!-- Submit Form -->
+        <button type="submit" class="btn btn-primary w-100">Submit Deposit</button>
+    </form>
+</div>
+
+<script>
+    // Update wallet address when selecting a wallet
+    document.getElementById("wallet-select").addEventListener("change", function() {
+        var selectedOption = this.options[this.selectedIndex];
+        document.getElementById("wallet-address").value = selectedOption.getAttribute("data-address");
+    });
+
+    // Copy wallet address function
+    function copyAddress() {
+        var copyText = document.getElementById("wallet-address");
+        if (!copyText.value) {
+            alert("Please select a wallet first.");
+            return;
+        }
+        copyText.select();
+        navigator.clipboard.writeText(copyText.value);
+        alert("Wallet address copied to clipboard!");
+    }
+</script>
+
+</body>
+</html>

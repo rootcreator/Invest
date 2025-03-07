@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestWise - Your Smart Investment Platform</title>
+    <!-- Updated to use Bootstrap 5.3.2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Using cdnjs for Font Awesome to ensure reliable loading -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6610f2;
+            --light-bg: rgba(255, 255, 255, 0.15);
+            --card-hover-bg: rgba(255, 255, 255, 0.25);
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Improved header with navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0 10px;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #fff;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 120px 20px 80px;
+            background-image: url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(102, 16, 242, 0.8));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-section p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-custom {
+            font-size: 1.1rem;
+            padding: 12px 35px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-light {
+            background-color: transparent;
+            border: 2px solid #fff;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #fff;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .card-container {
+            margin-top: 40px;
+        }
+
+        .feature-card, .investment-card, .testimonial-card, .performance-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            transition: all 0.4s;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--card-shadow);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover, .investment-card:hover, .testimonial-card:hover, .performance-card:hover {
+            background: var(--card-hover-bg);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 auto 20px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card {
+            padding: 30px;
+            text-align: left;
+        }
+
+        .testimonial-card .quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .stats-container {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 40px 0;
+            margin: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .performance-card {
+            padding-bottom: 20px;
+        }
+
+        .performance-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+            color: #2ecc71;
+        }
+
+        .performance-period {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+
+        .risk-label {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .risk-low {
+            background-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .risk-medium {
+            background-color: rgba(241, 196, 15, 0.3);
+        }
+
+        .risk-high {
+            background-color: rgba(231, 76, 60, 0.3);
+        }
+
+        .contact-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--light-bg);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 60px 0 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Login/Register Modal Styles */
+        .modal-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 60px 15px;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .footer-column {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">InvestWise</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#investments">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#performance">Performance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light btn-sm rounded-pill px-3 ms-2" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section" id="home">
+        <div class="container hero-content">
+            <h1>Smart Investing Made Simple</h1>
+            <p class="lead">Maximize your returns with our AI-powered investment platform. Start growing your wealth today with personalized strategies tailored to your goals.</p>
+            <div class="mt-4">
+                <a href="#" class="btn btn-primary btn-custom me-3" data-bs-toggle="modal" data-bs-target="#registerModal">Get Started</a>
+                <a href="#investments" class="btn btn-outline-light btn-custom">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">$2.4B+</div>
+                    <div class="stat-label">Assets Managed</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">250K+</div>
+                    <div class="stat-label">Active Investors</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">18.7%</div>
+                    <div class="stat-label">Average Return</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">Why Choose InvestWise</h2>
+            <div class="row card-container">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="card-title">AI-Powered Insights</h3>
+                        <p>Our advanced algorithms analyze market trends and generate personalized investment recommendations.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="card-title">Bank-Level Security</h3>
+                        <p>Your investments and personal data are protected with enterprise-grade encryption and security protocols.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h3 class="card-title">Low Fees</h3>
+                        <p>Enjoy competitive management fees starting at just 0.5% with no hidden charges or commissions.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="card-title">Diversified Portfolio</h3>
+                        <p>Spread your investments across multiple asset classes to optimize returns while managing risk.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="card-title">Mobile App</h3>
+                        <p>Monitor and manage your investments anytime, anywhere with our intuitive mobile application.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="card-title">24/7 Support</h3>
+                        <p>Our dedicated customer support team is always available to assist you with any queries.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment Types Section -->
+    <div class="section" id="investments">
+        <div class="container">
+            <h2 class="section-title">Investment Opportunities</h2>
+            <div class="row card-container">
+                <div class="col-lg-3 col-md-6">
+                    <div class="investment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">Stocks & ETFs</h3>
+                        <p>Invest in handpicked stocks and exchange-traded funds with high growth potential.</p>
+                        <span class="risk-label risk-medium">Medium Risk</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="investment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <h3 class="card-title">Real Estate</h3>
+                        <p>Diversify with stable and high-value property investments across prime locations.</p>
+                        <span class="risk-label risk-low">Low Risk</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="investment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3 class="card-title">Cryptocurrency</h3>
+                        <p>Explore the digital currency market with our curated selection of crypto assets.</p>
+                        <span class="risk-label risk-high">High Risk</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="investment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="card-title">ESG Investments</h3>
+                        <p>Support sustainable development with our environmentally and socially responsible portfolio.</p>
+                        <span class="risk-label risk-medium">Medium Risk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Section -->
+    <div class="section" id="performance">
+        <div class="container">
+            <h2 class="section-title">Our Performance</h2>
+            <div class="row card-container">
+                <div class="col-lg-4 col-md-6">
+                    <div class="performance-card">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="card-title">Growth Portfolio</h3>
+                        <div class="performance-value">+24.6%</div>
+                        <div class="performance-period">Annual Return (Last 3 Years)</div>
+                        <p>Designed for aggressive growth with focus on emerging technologies and markets.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="performance-card">
+                        <div class="card-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="card-title">Balanced Portfolio</h3>
+                        <div class="performance-value">+16.8%</div>
+                        <div class="performance-period">Annual Return (Last 3 Years)</div>
+                        <p>Equal focus on growth and income with moderate risk tolerance.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="performance-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="card-title">Conservative Portfolio</h3>
+                        <div class="performance-value">+11.2%</div>
+                        <div class="performance-period">Annual Return (Last 3 Years)</div>
+                        <p>Prioritizes capital preservation with stable and predictable returns.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <a href="#" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#registerModal">Start Investing</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="section" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Investor Stories</h2>
+            <div class="row card-container">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="quote">"I've tried several investment platforms before, but InvestWise truly stands out. The AI recommendations have helped me achieve a 22% return in just one year!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://via.placeholder.com/60x60" alt="John Doe" class="testimonial-image">
+                            <div>
+                                <strong>John Doe</strong>
+                                <p class="mb-0">Tech Entrepreneur</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="quote">"As a busy professional, I needed a hands-off investment solution. InvestWise's automated portfolio management has been a game-changer for my financial future."</p>
+                        <div class="testimonial-author">
+                            <img src="https://via.placeholder.com/60x60" alt="Sarah Williams" class="testimonial-image">
+                            <div>
+                                <strong>Sarah Williams</strong>
+                                <p class="mb-0">Medical Doctor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="quote">"The diversified portfolio options and transparent fee structure make InvestWise perfect for beginners like me. My retirement planning has never been more solid."</p>
+                        <div class="testimonial-author">
+                            <img src="https://via.placeholder.com/60x60" alt="Mark Robinson" class="testimonial-image">
+                            <div>
+                                <strong>Mark Robinson</strong>
+                                <p class="mb-0">School Teacher</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="contact-form">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="investmentAmount" class="form-label">Investment Amount</label>
+                        <select class="form-control" id="investmentAmount" required>
+                            <option value="" disabled selected>Select investment range</option>
+                            <option value="1000-10000">$1,000 - $10,000</option>
+                            <option value="10001-50000">$10,001 - $50,000</option>
+                            <option value="50001-100000">$50,001 - $100,000</option>
+                            <option value="100001+">$100,001+</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="investmentGoals" class="form-label">Investment Goals</label>
+                        <select class="form-control" id="investmentGoals" required>
+                            <option value="" disabled selected>Select your primary goal</option>
+                            <option value="retirement">Retirement Planning</option>
+                            <option value="growth">Wealth Growth</option>
+                            <option value="income">Passive Income</option>
+                            <option value="education">Education Fund</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea class="form-control" id="message" rows="4" placeholder="Any specific questions or requirements?" required></textarea>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">
+                            I agree to receive information about InvestWise services and products
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-custom">Submit Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>InvestWise</h4>
+                    <p>Your trusted partner for intelligent and secure investments, helping you build wealth through strategic diversification.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#investments">Investments</a></li>
+                        <li><a href="#performance">Performance</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Investment Options</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Stocks & ETFs</a></li>
+                        <li><a href="#">Real Estate</a></li>
+                        <li><a href="#">Cryptocurrency</a></li>
+                        <li><a href="#">ESG Investments</a></li>
+                        <li><a href="#">Retirement Plans</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 InvestWise. All Rights Reserved.</p>
+                <p class="mt-2">
+                    <small>Investment involves risk. Past performance is not indicative of future returns.</small>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="loginUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <input type="hidden" name="next" value="{% url 'dashboard' %}">
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'password_reset' %}" class="text-white">Forgot Password?</a>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <p class="mb-0">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" class="text-white"><strong>Register Now</strong></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Create Your Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last name" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Choose a username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phone_number" placeholder="Enter your phone number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Create a password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirm your password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsAgree" name="terms_agree" required>
+                            <label class="form-check-label" for="termsAgree">I agree to the <a href="#" class="text-white">Terms of Service</a> and <a href="#" class="text-white">Privacy Policy</a></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <p class="mb-0">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" class="text-white"><strong>Login</strong></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if(this.getAttribute('href') !== '#' &&
+                   !this.getAttribute('data-bs-toggle')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if(targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 70,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // Navbar color change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            } else {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+            }
+        });
+    </script>
+</body>
+</html>

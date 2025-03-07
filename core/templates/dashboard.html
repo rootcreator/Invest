@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .balance-card {
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 10px;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="container mt-4">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">Investment Platform</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'deposit' %}">Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'invest' %}">Invest</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'withdraw' %}">Withdraw</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Title -->
+    <h1 class="mb-4 text-center">Dashboard</h1>
+
+    <!-- Balance Section -->
+    <div class="card p-4 mb-4">
+        <h3 class="balance-card">Balance: ${{ balance }}</h3>
+    </div>
+
+    <!-- Investments Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h4>Investments</h4>
+                <ul class="list-group">
+                    {% for investment in investments %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ investment.package.name }} - ${{ investment.amount }}</span>
+                        <span class="{% if investment.status == 'Active' %}text-success{% else %}text-danger{% endif %}">
+                            {{ investment.status }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Investment Growth Chart -->
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h4>Investment Growth</h4>
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Deposits Section -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h4>Pending Deposits</h4>
+                <ul class="list-group">
+                    {% for deposit in deposits %}
+                    <li class="list-group-item">{{ deposit.amount }} -
+                        <span class="{% if deposit.status == 'Pending' %}text-warning{% else %}text-success{% endif %}">
+                            {{ deposit.status }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Withdrawals Section -->
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h4>Withdrawals</h4>
+                <ul class="list-group">
+                    {% for withdrawal in withdrawals %}
+                    <li class="list-group-item">{{ withdrawal.amount }} -
+                        <span class="{% if withdrawal.status == 'Completed' %}text-success{% else %}text-danger{% endif %}">
+                            {{ withdrawal.status }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Script -->
+    <script>
+        var ctx = document.getElementById('investmentChart').getContext('2d');
+        var investmentData = {
+            labels: [{% for investment in investments %} "{{ investment.package.name }}", {% endfor %}],
+            datasets: [{
+                label: 'Investment Amount ($)',
+                data: [{% for investment in investments %} {{ investment.amount }}, {% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        var investmentChart = new Chart(ctx, {
+            type: 'bar',
+            data: investmentData,
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
